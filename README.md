@@ -1,1 +1,4 @@
--markdown_test-
+*markdown_test*
+***
+__Second paragraph__
+***
