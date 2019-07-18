@@ -1,3 +1,84 @@
+# 2019/7/6
+## Liunx
+* Debian下的samba源码安装  
+    1. 安装要求：  
+    <center>
+    <img src="IMG/image005.png">
+    </center>  
+
+    2. 安装过程中出现的问题  
+    &emsp;&emsp;- `./configure`过程中最后报错  
+    <center>
+    <img src="IMG/image006.png">
+    </center>  
+    
+    &emsp;&emsp;根据配置日志推断是python依赖项出现了问题，此时已安装过最新版本的python。  
+    <center>
+    <img src="IMG/image007.png">
+    </center>  
+    
+	&emsp;&emsp;源代码目录下有install_with_python.sh的python运行脚本文件，运行后报错。  
+    <center>
+    <img src="IMG/image008.png">
+    </center>  
+    
+	&emsp;&emsp;就缺少Python.h文件问题进行修复。  
+    &emsp;&emsp;因此步骤卡住了几个小时未能解决，此段为向李旭云学长求助，学长提供思路并解决：  
+	百度报错条目：  
+    `err: ../../test.c:431:20: fatal error: Python.h: No such file or directory`  
+    &emsp;&emsp;得到网上帮助信息：https://blog.csdn.net/zzzcl112/article/details/81542513  
+    &emsp;&emsp;解决方案：  
+    `sudo apt-get install python-dev`  
+    `sudo apt-get install python3-dev`  
+    &emsp;&emsp;解决后可正常编译。  
+    <center>
+    <img src="IMG/image009.png">
+    </center>  
+    
+    &emsp;&emsp;运行 `./configure  --prefix=/usr/local/` 进行安装路径设置。  
+## C++
+* string类  
+    &emsp;&emsp;string类很多方面使用方式与字符数组相同，主要区别就是对于string可以进行直接简单变量声明，数组是容器，string是实体，string会根据输入的字符串长度进行自我调整。string类要比使用字符数组更加自由、智能，比如字符数组无法从数组A赋值给数组B，但是string类可以，还可以轻松地进行拼接等操作。  
+* 当前进度  
+    &emsp;&emsp;页码（86p/936p）  
+## 计算机网络
+* 物理层  
+    &emsp;&emsp;学习各种有线和无线通信原理，理解集线器是一个冲突域，集线器是物理设备的原因。  
+    &emsp;&emsp;理解信道复用技术中的频分复用技术、时分复用技术（利用率不高的原因），统计时分复用，波分复用（原理同频分复用），理解E1标准和T1标准，一个码元能够带8位信息的原因，国内只有E1标准电路。  
+    &emsp;&emsp;理解ADSL拨号上网，猫其实是调制解调器，电话占据低频频段，网络利用高频频段。由于DMT调制技术的原因，电话用1个信道，上传分配25个子信道，下载分配249个子信道，故上传速率比较低。理解HFC上网光纤同轴线混用的原理（利用有线电视网络）。理解FTTx光纤到户上网。物理层章节结束。  
+* 实验  
+    &emsp;&emsp;理解交叉电缆和直通电缆的区别和应用场景，利用电缆和水晶头制作一根直通电缆。  
+* 当前进度  
+    &emsp;&emsp;课时 **（23p/95p）** 数据链路层  
+***
+# 2019/7/5
+## Linux学习
+* `yum`指令  
+    　　centOS7.0可以通过配置文件设置静态网络ip，也可以通过nmtui界面配置网络。慎用`yum -y update`，这会导致内核升级，远程无法再次正常连接至服务器。慎用`yum`卸载，`yum`卸载可能会导致其他软件依赖的包被卸载，其他软件无法正常使用，所以Liunx使用原则：尽量最小化安装，尽量避免卸载，卸载也避免使用`yum`卸载。  
+* 源码包管理  
+    　　rpm包在安装时候软件包会自动选择默认路径进行安装，但是源码包不一样，源码包需要自己手动选择安装路径，一般安装在“/usr/local/软件名”下。rpm包在安装之后启动文件默认存储在/etc/rc.d/init.d/下，red hat公司开发了 **“`service 启动项 start`”** 指令简化了过长的绝对路径启动命令，`service`指令其实就是去系统默认启动项目录去找指定启动项，所以`service`指令无法管理源码包的启动，源码包进行启动时只能用绝对路径启动方式。  
+    　　系统为源代码的存放准备了位置：/usr/local/src/，传送源代码包使用WinSCP，源码包安装步骤：  
+    1. 下载、传输、解压压缩包。**（使用WinSCP工具）**  
+    2. 进入解压缩目录。  
+    3. INSTALL是安装说明，README是使用说明，可以用来阅读安装说明。  
+    4. `./configure`软件配置与检查，`./configure  --prefix=/usr/local/名称` 来配置安装位置。  
+    5. `./configure`会把用户定义的配置和系统环境写进Makefile文件。  
+    6. 完成`./configure`命令后检查报错。  
+    7. `make`指令 编译，`make install`指令 编译安装。  
+* 脚本安装包  
+    　　脚本安装包不是独立软件包类型，并且是源码包。  
+* 当前进度  
+    　　接下来在Debian8下使用源码安装方式安装samba。  
+## 计算机网络
+* 当前进度  
+    　　课时 **（19p/95p）**  
+## C++
+* 练习习题
+    <center>
+    <img src="IMG/image004.png">
+    </center>
+
+***
 # 2019/7/4  
 ## Linux学习  
 * LAMP环境的搭建  
@@ -58,7 +139,7 @@
 * 学习进度  
     　　课时 **（17p/95p）**  
     　　当前进度：奈氏准则与香农公式  
-
+***
 # 2019/5/14~2019/7/3
 ## Linux学习（菜鸟教程，兄弟连基础视频）
 * 学习指令前的准备操作
@@ -105,4 +186,4 @@
     　　课时 **（资源原因更换视频）** **（13p/95p）**，  
     　　当前学习章节：虚拟机的网络设置。  
 * 当前问题  
-    　　针对自己选择方向语言和工程实现方面的深入了解。  
+    　　针对自己选择方向语言和工程实现方面的深入了解。
