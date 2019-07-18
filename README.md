@@ -1,6 +1,65 @@
-[TOC]
-***
-# <font color="#avdcdet">2019/5/14~2019/7/3</font>
+# 2019/7/4  
+## Linux学习  
+* LAMP环境的搭建  
+    1. Apache搭建  
+    　　主要指令：`yum install httpd httpd-devel`  
+    　　搭建成果：  
+    <center>
+    <img src="img/image001.png">
+    </center>  
+
+    2. Mysql搭建  
+    　　主要指令：`yum install mariadb mariadb-server mariadb-libs mariadb-devel`  
+    　　搭建成果：  
+    <center>
+    <img src="img/image002.png">
+    </center>  
+
+    3. PHP搭建  
+    　　主要指令：  
+    　　安装php：`yum -y install php`  
+    　　安装php与mysql的链接：`yum install php-mysql`  
+    　　安装php常用模块：`yum install -y php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel php-bcmath`  
+	　　搭建成果：  
+    <center>
+    <img src="img/image003.png">
+    </center>  
+    
+* 基础知识  
+    1. Vim  
+    　　`:r` 文件名 导入文件到当前文件中  
+    　　`:!which` 命令 找到命令存放位置  
+    　　`:r !` 命令 将命令结果导入当前编辑的vim之中  
+    　　`:map Ctrl+v+p I#<ESC>` 指定操作定制快捷键，此时回到文档按Ctrl+p即可快速注释  
+    　　`:map Ctrl+v+b 0x` 指定0x操作，Ctrl+b即可快速删除注释  
+    　　`:set nu` 在vim中显示行号  
+    　　`:a,bs/^/#/g` a-b行不加以确认的添加注释  
+    　　`:a,bs/^#//g` a-b行不加以确认的删除注释  
+    　　Vim中`/`前使用“`\`”转义符  
+    　　`:ab` a b在vim中输入a变成b  
+    　　以上此设定用vim写入用户家目录下.vimrc配置文件可保证重启不失效  
+    2. 手工软件安装包管理  
+    　　理解源码包与二进制包 **（即是centOS中rpm包）** 的区别，了解二者分别的优缺点。  
+    　　学习`rpm`包的命名规则 **（包名-版本-发布次数.OS平台.硬件平台.rpm）**，利用<https://www.rpmfind.com>网站解决`rpm`库依赖的问题，由于`rpm`依赖性问题严重，所以引出`yum`在线下载 **（或本地光盘）** 解决依赖问题，这里也体现出centOS的好处：`yum`由社区维护，从而免费下载。`rpm`指令常用来`-q`查询包的安装状态以及利用，例如使用`rpm -qa|grep httpd`来查询所有已安装的包中apache的包是否正确安装，另外常用`-i`查询安装包的信息。  
+    　　学习利用`rpm2cpio`解决安装文件缺失问题。  
+## C++
+* 学习内容  
+    　　复合类型，学习读入字符串时`cin`、`cin.get`、`cin.getline`几种用法。  
+    　　主要特性：`cin`不能将空格读入字符串，会将空格两边的内容读成两个字符串，`cin.getline`会智能的读取一行字符串并且把回车符更换成`/0`，`cin.get`不会处理回车符，而是读入到回车符为止，将回车符留在队列中，这就会导致第二次使用`cin.get`时直接遇到回车符认为是空字符串结束读取，解决方法是在两个`cin.get`之间加一个`cin.get()`以起到和回车符抵消的作用，`cin.get`看似没有`cin.getline`智能，实际上却可以通过检测队列中第一位是否是回车符从而判断是否读入了全部字符串而不是数组已满导致存储了一部分字符串，`cin.getline`起不到相同作用。  
+* 学习进度  
+    　　页码 **（81p/936p）**  
+## 计算机网络
+* 学习内容  
+    　　深入理解VMware虚拟机中桥接、仅主机、NAT三种模式。  
+    　　其中桥接主要思想是物理机与虚拟机之间建立虚拟网桥，主要优点是简单，主要缺点是占用ip地址资源。  
+    　　NAT模式主要思想是建立虚拟Vmnet8交换机，虚拟机连接在虚拟交换机上，虚拟交换机链接物理机的虚拟网卡VMware Network Adapter VMnet8上，这一部分仅仅为了虚拟机和物理机之间的通讯，而实际上虚拟机之所以能联网是因为连接了虚拟NAT设备，虚拟NAT设备再连接到主机物理网卡上，从而可以上网，这么做的好处就是虚拟机可以不和物理机共享网段，从而不占用ip资源。  
+    　　仅主机模式主要思想是将虚拟机网卡直接与物理网卡连接，去除NAT设备的NAT模式，在NAT模式下禁用虚拟网卡只会导致主机和虚拟机之间无法通信，但是虚拟机仍然可以上网，然而在主机模式下禁用虚拟网卡会导致虚拟机与主机和网络均失联。  
+	　　另外，在后两者的虚拟网络下，均存在虚拟DHCP服务器，可以为虚拟机的虚拟网段提供动态ip分配，而在桥接模式下就需要看物理机所在网段是否有动态ip分配的功能了。  
+* 学习进度  
+    　　课时 **（17p/95p）**  
+    　　当前进度：奈氏准则与香农公式  
+
+# 2019/5/14~2019/7/3
 ## Linux学习（菜鸟教程，兄弟连基础视频）
 * 学习指令前的准备操作
     1. 虚拟机的安装  
