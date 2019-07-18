@@ -5,14 +5,14 @@
     　　主要指令：`yum install httpd httpd-devel`  
     　　搭建成果：  
     <center>
-    <img src="img/image001.png">
+    <img src="IMG/image001.png">
     </center>  
 
     2. Mysql搭建  
     　　主要指令：`yum install mariadb mariadb-server mariadb-libs mariadb-devel`  
     　　搭建成果：  
     <center>
-    <img src="img/image002.png">
+    <img src="IMG/image002.png">
     </center>  
 
     3. PHP搭建  
@@ -22,7 +22,7 @@
     　　安装php常用模块：`yum install -y php-gd php-ldap php-odbc php-pear php-xml php-xmlrpc php-mbstring php-snmp php-soap curl curl-devel php-bcmath`  
 	　　搭建成果：  
     <center>
-    <img src="img/image003.png">
+    <img src="IMG/image003.png">
     </center>  
     
 * 基础知识  
