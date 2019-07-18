@@ -10,17 +10,17 @@
     &emsp;&emsp;- `./configure`过程中最后报错  
     <center>
     <img src="IMG/image006.png">
-    </center>  
+    </center>
     
     &emsp;&emsp;根据配置日志推断是python依赖项出现了问题，此时已安装过最新版本的python。  
     <center>
     <img src="IMG/image007.png">
-    </center>  
+    </center>
     
 	&emsp;&emsp;源代码目录下有install_with_python.sh的python运行脚本文件，运行后报错。  
     <center>
     <img src="IMG/image008.png">
-    </center>  
+    </center>
     
 	&emsp;&emsp;就缺少Python.h文件问题进行修复。  
     &emsp;&emsp;因此步骤卡住了几个小时未能解决，此段为向李旭云学长求助，学长提供思路并解决：  
@@ -33,7 +33,7 @@
     &emsp;&emsp;解决后可正常编译。  
     <center>
     <img src="IMG/image009.png">
-    </center>  
+    </center>
     
     &emsp;&emsp;运行 `./configure  --prefix=/usr/local/` 进行安装路径设置。  
 ## C++
