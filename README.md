@@ -1,3 +1,525 @@
+# 2019/7/18
+## git
+* 管理修改  
+    &emsp;&emsp;`git commit`指令只负责将暂存区中的内容提交到master，所以在`git add`文件后再对工作区文件进行修改，然后再commit则对最新修改的内容无效。`git diff HEAD -- readme.txt`命令可以查看工作区和版本库里面最新版本的区别。  
+    <center>
+    <img src="IMG/image068.png">
+    </center>
+
+	&emsp;&emsp;所以说应该用`git add`增加全部改动后再统一用`git commit`指令。  
+* 撤销修改  
+    &emsp;&emsp;使用`git checkout -- <file>`指令可以使工作区中内容直接回退到master区最新版本：  
+    <center>
+    <img src="IMG/image069.png">
+    </center>
+
+	&emsp;&emsp;命令`git checkout -- readme.txt`意思就是，把readme.txt文件在工作区的修改全部撤销，这里有两种情况：一种是readme.txt自修改后还没有被放到暂存区，现在，撤销修改就回到和版本库一模一样的状态；一种是readme.txt已经添加到暂存区后，又作了修改，现在，撤销修改就回到添加到暂存区后的状态。  
+    &emsp;&emsp;总之，就是让这个文件回到最近一次`git commit`或`git add`时的状态。  
+    &emsp;&emsp;`git checkout`先参考暂存区，再参考master区，假如错误的文件已经提交到暂存区，需要将工作区的修改撤销，可以使用之前学到的`git reset`指令，` git reset HEAD <file>`可以直接回退到最新版本。  
+* 删除文件  
+    &emsp;&emsp;`rm`指令可以删除工作区指定文件，之后想删除版本库中的相同文件需要删除的话使用`git rm`再`git commit`即可：  
+    <center>
+    <img src="IMG/image070.png">
+    </center>
+    
+	&emsp;&emsp;新建一个测试删除md文件。  
+    <center>
+    <img src="IMG/image071.png">
+    </center>
+
+	&emsp;&emsp;如图将新建文件提交到master。  
+	&emsp;&emsp;开始删除master文件测试：  
+    <center>
+    <img src="IMG/image072.png">
+    </center>
+ 
+    <center>
+    <img src="IMG/image073.png">
+    </center>
+
+	&emsp;&emsp;使用`git log`查询，如图，已经成功将文件从master删除。  
+* SSH KEY  
+    &emsp;&emsp;第一步，创建SSH KEY：  
+    <center>
+    <img src="IMG/image074.png">
+    </center>
+
+	&emsp;&emsp;在主目录下成功生成了SSH目录：  
+    <center>
+    <img src="IMG/image075.png">
+    </center>
+
+    &emsp;&emsp;其中SSH目录里面有id_rsa和id_rsa.pub两个文件，这两个就是SSH Key的秘钥对，id_rsa是私钥，不能泄露出去，id_rsa.pub是公钥，可以放心地告诉任何人。  
+    &emsp;&emsp;第二步，在GitLab提交ssh key：  
+    <center>
+    <img src="IMG/image076.png">
+    </center>
+
+	&emsp;&emsp;在GITLAB中个人设置中SSH KEY设置项中输入自己的id_rsa.pub文件的内容。  
+    <center>
+    <img src="IMG/image077.png">
+    </center>
+
+	&emsp;&emsp;成功添加ssh key，添加ssh key的目的是服务器可以识别是你本人计算机在修改库的数据，不允许其他人对其进行修改，如果换一台电脑的话要额外添加新的ssh key。  
+* 添加远程仓库  
+    &emsp;&emsp;新建一个远程仓库：  
+    <center>
+    <img src="IMG/image078.png">
+    </center>
+
+	&emsp;&emsp;在本地链接远程库：  
+    <center>
+    <img src="IMG/image079.png">
+    </center>
+    
+	&emsp;&emsp;使用`git push`指令将本地master文件上传到远程库：  
+	&emsp;&emsp;第一次推送master分支时，加上了`-u`参数，Git不但会把本地的master分支内容推送的远程新的master分支，还会把本地的master分支和远程的master分支关联起来，在以后的推送或者拉取时就可以简化命令。  
+    <center>
+    <img src="IMG/image080.png">
+    </center>
+
+	&emsp;&emsp;然后检查gitlab，发现所有本地文件成功同步，可喜可贺。  
+    <center>
+    <img src="IMG/image081.png">
+    </center>
+
+	&emsp;&emsp;从现在起，只要本地作了提交，就可以通过命令：`git push origin master`把本地`master`分支的最新修改推送至GitLab！  
+## 计算机网络
+* 二进制指数类型退避算法  
+    &emsp;&emsp;应用在数据链路层广播信道中载波监听多路访问（CSMA/CD）时产生冲突的解决算法，简单来说核心思想就是某机器一旦发生一次冲突，就随机生成一个与监听时间成倍率的等待时间，等待时间后再次重传，且每一次冲突都会使此机器与监听事件相乘的倍率可选取随机数范围值越大，随机选取倍率数值大的可能性越高，奉行“越冲突，越往后排，给其他机器让路”的思想。  
+* 以太网  
+    &emsp;&emsp;以太网是局域网的一种，是总线型的局域网，能够应用CSMA/CD技术的都是以太网，以太网是一种局域网技术，说的通俗点，以太网就是交通路道，CSMA/CD就是在以太网上工作的交通警察，解决冲突。局域网的数据链路层有两个子层：逻辑链路控制子层（LLC）与媒体接入控制子层（MAC），不过现在很多厂商生产网卡仅装有MAC协议。  
+    &emsp;&emsp;以太网不可靠交付，出错丢掉，不纠错。使用的设备：集线器，只起到放大信号的作用，集线器本身就是一堆网线的集合，将每台机器的出口对到另外其他所有机器的入口上，没有任何应用技术，工作在物理层，而且还不安全，因为集线器是广播传播数据，abc通过集线器连在一起，a发给b的信息可以被c捕获。  
+    &emsp;&emsp;理解信道利用率，主要影响信道利用率的是检测时间，检测时间越小传送数据时间比重在总时间中比重越大，信道利用率越高。  
+* MAC地址  
+    &emsp;&emsp;mac地址是一个48位的二进制地址，理论上可以拥有248个不同的mac地址，网卡生产厂家要做到每一块网卡的mac地址都不同，所以他们要找IEEE的注册管理机构RA申请高位三个字节（24）位的地址号，我们看到的mac地址通常是16进制的12位数形式，计算机中无线网卡和有线网卡都有各自的mac地址。  
+    学习mac帧的组成：  
+    <center>
+    <img src="IMG/image082.png">
+    </center>
+
+    &emsp;&emsp;mac帧抓包工具：Ethereal，若计算机已经收到mac帧说明数据无误，FCS部分就会被计算机自动删除。目标mac地址全f说明这个mac帧是广播帧。  
+* 当前进度  
+    &emsp;&emsp;课时（33p/95p） 数据链路层。  
+## 转移学习文档
+    &emsp;&emsp;整理markdown格式的学习文档。  
+
+# 2019/7/17
+## git
+* 选定学习教程  
+    &emsp;&emsp;教程地址：<https://www.liaoxuefeng.com/wiki/896043488029600>  
+* 创建版本库  
+    &emsp;&emsp;新建Linux库目录：  
+    <center>
+    <img src="IMG/image050.png">
+    </center>
+
+	&emsp;&emsp;git默认根目录为user下的用户目录，完成指令后会在用户目录下生成对应的库目录。  
+	我的电脑上生成库目录路径为C:\Users\Administrator\linux  
+    <center>
+    <img src="IMG/image051.png">
+    </center>
+
+    &emsp;&emsp;输入`git init`指令，现在linux目录变成了可以管理的仓库，生成对应`.git`目录，这个目录是Git来跟踪管理版本库。  
+    <center>
+    <img src="IMG/image052.png">
+    </center>
+
+	&emsp;&emsp;word文件是二进制编码的，git无法追踪，应该用记事本这种存储UTF-8编码的应用存储文档，但是微软自带的记事本会在每个文件开头添加`0xefbbbf`（十六进制）的字符，会产生各种不可思议的bug，故不要用windows下的记事本软件。我这里使用Visual Studio Code进行markdown文件的编写。  
+	&emsp;&emsp;在linux目录下新建第一个markdown文档：  
+    <center>
+    <img src="IMG/image053.png">
+    </center>
+
+    &emsp;&emsp;接下来把README.md文件添加到仓库：  
+    <center>
+    <img src="IMG/image054.png">
+    </center>
+
+	&emsp;&emsp;把README.md文件提交到仓库：  
+	&emsp;&emsp;其中`-m`后跟的字符是作者自己对本次提交的说明，`-m`是个好习惯不建议省去。  
+    <center>
+    <img src="IMG/image055.png">
+    </center>
+
+	&emsp;&emsp;成功添加后显示如下结果，其中`file changed`是文件改动数目，`insertion`是文件插入了几行内容。  
+	&emsp;&emsp;之所以要先`add`再`commit`的原因是`add`指令可以添加多个文件，`commit`指令将它们全部一次性提交。  
+* 时光机  
+    &emsp;&emsp;更改README.md文件：  
+    <center>
+    <img src="IMG/image056.png">
+    </center>
+
+    &emsp;&emsp;效果：  
+    <center>
+    <img src="IMG/image057.png">
+    </center>
+
+	&emsp;&emsp;运行`git status`查看修改过文档的状态是怎样的：  
+    <center>
+    <img src="IMG/image058.png">
+    </center>
+
+	&emsp;&emsp;如图，其中显示未将更改进行提交，现在使用`git diff`命令看看是哪里曾经进行过修改：  
+    <center>
+    <img src="IMG/image059.png">
+    </center>
+
+	&emsp;&emsp;其中加号显示了文件新增的内容，这回确认了之后提交内容到仓库就放心多了，之后再`add`和`commit`两板斧操作就行了。  
+	&emsp;&emsp;输入`git add`再检查文件状态：  
+    <center>
+    <img src="IMG/image060.png">
+    </center>
+
+    &emsp;&emsp;显示将要修改的文件只README.md文件，之后就可以放心提交了：  
+    <center>
+    <img src="IMG/image061.png">
+    </center>
+
+	&emsp;&emsp;会显示库文件的增删行数。  
+    <center>
+    <img src="IMG/image062.png">
+    </center>
+
+    &emsp;&emsp;现在再输入`git status`可显示工作区文件无改动并且工作区任务已经完毕。  
+* 版本回溯  
+    &emsp;&emsp;使用git log指令查看文件的历史版本：  
+    <center>
+    <img src="IMG/image063.png">
+    </center>
+
+	&emsp;&emsp;可以看到每次版本更新的提交说明，更改者以及更改时间。  
+	&emsp;&emsp;加上`--pretty=oneline`指令可以只显示版本号以及改动说明，比较直观：  
+    <center>
+    <img src="IMG/image064.png">
+    </center>
+
+	&emsp;&emsp;git中，`HEAD`指向的是当前版本，`HEAD^`指的是上个版本，`HEAD^^`指的是上上个版本……但很久远的版本，比如100个版本，写成HEAD~100。  
+	&emsp;&emsp;接下来使用版本回退指令：`git reset`  
+    <center>
+    <img src="IMG/image065.png">
+    </center>
+
+	&emsp;&emsp;如图，使用`git reset`指令将文件回滚到上个版本，又将文件恢复到当前版本，可以指定特定版本号进行回溯，只需要输入部分版本号，不需要将版本号全部输入进去。但是有歧义不可以，要再输入几位区分歧义。  
+	&emsp;&emsp;回溯原理是git内部有几个版本文件，HEAD指针指向了旧的版本文档顺便更新工作区。  
+	&emsp;&emsp;`git reflog`指令可以查询每一次命令，从而可以查到`commit id`，通过`id`可以回溯到误删的最新版本。  
+    <center>
+    <img src="IMG/image066.png">
+    </center>
+* 工作区与暂存区  
+    &emsp;&emsp;直接工作的区域就是工作区，如我的电脑中linux目录下就是一个工作区。  
+    <center>
+    <img src="IMG/image067.jpg">
+    </center>
+
+	&emsp;&emsp;如图，每次`git add`时就是讲文件放入stage暂存区，`git commit`时是将暂存区所有文件提交到对应的文件分支。一旦`git commit`后暂存区内容将清空，工作区与master区内容相同，工作区就是“干净”的，git没有遗留未处理的任务。  
+## 实验室任务  
+&emsp;&emsp;统计实验室服务器CPU参数。  
+***
+# 2019/7/16
+## git
+* 了解并配置git  
+&emsp;&emsp;GIT是基于分布式思想的版本控制系统，而SVN这种不是，所以GIT文件能减少特殊情况对文件的破坏。  
+选用Windows作为生产工具系统，Windows端安装git软件相对比较简单，傻瓜式安装。理解工作区，暂存区和版本库。  
+&emsp;&emsp;安装完成界面：  
+    <center>
+    <img src="IMG/image049.png">
+    </center>
+
+## 计算机网络
+* CSMA/CD协议的冲突检测  
+&emsp;&emsp;CSMA/CD协议不能使用全双工通信，只能使用半双工通信，原因就是此协议需要检测碰撞（原理就是碰撞后叠加的电波大于5v），使用全双工的话就无法碰撞，自然也就无法检测碰撞。由于半双工CSMA/CD协议会变相缩减网络带宽。windows网卡配置里可以设置全双工和半双工。  
+&emsp;&emsp;争用期：说通俗些就是从计算机A到计算机B来回往返检测用掉的时间，这段时间发送的是前64字节数据。若这64字节内未冲突，则后续就不会发生冲突。之所以是64字节是因为对于10Mb/s的以太网争用期内可发送64字节，同样的数据包小于64字节的话可能会导致检测不到冲突，所以以太网有效帧长度为64字节，小于64字节就是无效帧。网速越快有效帧长度越长、同理网线越长往返时间越长，有效帧长度越长，所以以太网网线长度有规定不能太长。  
+* 当前进度  
+&emsp;&emsp;课时（29p/95p） 数据链路层。  
+***
+# 2019/7/15
+## Linux
+* 当前进度  
+&emsp;&emsp;复习Linux基础知识。  
+## C++
+* 几种不同的字符串编码方式  
+* 正常的字符char拥有8位大小的存储空间，理解`wchar_t`，`char16_t`，`char32_t`和它们的使用方式。  
+* 当前进度  
+&emsp;&emsp;页码（89/936p） 完成字符串的学习。  
+## 计算机网络  
+* 当前进度  
+&emsp;&emsp;课时（28p/95p） 数据链路层。  
+***
+# 2019/7/13
+## Linux
+&emsp;&emsp;复习安装配置虚拟机的知识，详情见《本地虚拟机搭建Linux系统》。  
+## 实验室任务
+&emsp;&emsp;参与实验室HOS的pdf翻页测试。  
+***
+# 2019/7/12
+## Linux
+* 当前进度  
+&emsp;&emsp;撰写配置VMware Workstation Pro，安装虚拟器，配置静态ip，并连接Xshell的文档。  
+## MarkDown
+* 环境配置：  
+    1. Visual Studio Code  
+    2. 火狐浏览器扩展：GitLab Markdown Viewer  
+* 学习历程：  
+    1. 代码展示：  
+    <center>
+    <img src="IMG/image040.png">
+    </center>
+
+    <center>
+    <img src="IMG/image041.png">
+    </center>
+    
+    <center>
+    <img src="IMG/image042.png">
+    </center>
+    
+    <center>
+    <img src="IMG/image043.png">
+    </center>
+
+    2. 效果展示：  
+    <center>
+    <img src="IMG/image044.png">
+    </center>
+    
+    <center>
+    <img src="IMG/image045.png">
+    </center>
+    
+    <center>
+    <img src="IMG/image046.png">
+    </center>
+    
+    <center>
+    <img src="IMG/image047.png">
+    </center>
+
+    <center>
+    <img src="IMG/image048.png">
+    </center>
+***   
+# 2019/7/11
+## Linux
+* 错误分析  
+&emsp;&emsp;对比新旧两份配置文件：  
+<center>
+<img src="IMG/image016.png">
+</center>
+
+<center>
+<img src="IMG/image035.png">
+</center>
+
+&emsp;&emsp;第一份配置文件时`path`指向的是`usr`目录，而真正包含tom用户目录的是`share`目录，`share`目录是`usr`目录下的软连接，所以用户文件未能正确对应，故更改文件体系，建立`/smbmount`目录作为挂载目录，在根目录下建立`/share`作为实际存写目录，再将`/share`的软连接写入`/smbmount`目录，`/smbmount/share/%u`作为\[tom\]共享的识别路径，其中`%u` 代表一个URL。也可以是一个本地文件路径，`%U` 代表一系列URL，其中每一个URL作为一个单独的参数传递给可执行程序，也可以是一系列本地文件路径。此时在windows上可以正确识别`tom`文件夹并挂载，并且可以正确进行读写：  
+<center>
+<img src="IMG/image036.png">
+</center>
+
+* 回收站配置无效分析  
+&emsp;&emsp;经过排查，得出结论，回收站文件夹需要用户自主创建，不是根据配置文档自动生成。  
+&emsp;&emsp;效果演示：  
+<center>
+<img src="IMG/image037.png">
+</center>
+
+<center>
+<img src="IMG/image038.png">
+</center>
+
+ <center>
+<img src="IMG/image039.png">
+</center>
+
+&emsp;&emsp;如图实现了垃圾箱的配置，实现了回收站功能！  
+* 结语：完成配置要求  
+&emsp;&emsp;重新审视配置要求：  
+<center>
+<img src="IMG/image005.png">
+</center>
+
+&emsp;&emsp;其中：  
+1. 要求共享目录唯一，所有的文件共享均归属于`tom`目录下，实现了共享目录唯一。  
+2. 挂载目录为根目录下`/smbmount`中`share`软连接，而实际存储目录是根目录下`/share/tom`目录。  
+3. 根据配置文件已经实现回收站的配置，回收站直接位置为相对`share`目录下回收站。  
+4. 根据配置文件将实现回收站功能的文件夹更名成“回收站”。  
+## 计算机网络
+* CRC冗余检验  
+&emsp;&emsp;在数据包后三位加上000，和进行P（除数）进行模2除法，得到新的三位余数，新的三位余数替换掉000，产生新的数据包，新的数据序列在检验时和P进行模二除法如果余数是000说明没有产生错误，可以保留，如果出现错误则丢弃。  
+但CRC无法追寻到数据序列出错处是哪里，没有矫错能力。  
+* PPP协议  
+&emsp;&emsp;数据链路层上的协议，它支持多种网络层协议，通过查看封装帧帧首与帧尾是否是7E即可辨识PPP协议，首部由于是点对点，所以地址段是FF，02字段无意义，协议字段表明了信息部分是什么类型的数据，尾部FCS字段作为信息的检验字段。  
+&emsp;&emsp;PPP协议也涉及到透明传输的问题，解决方法是将7E拆成7D和5E，这样IP数据包部分就不存在会产生误会的7E了，这样也保证了传输数据还是8的倍数，如果传输的是二进制流，则每发现五个1则插入一个0，接收时每5个1则删除后续的0。  
+&emsp;&emsp;PPP协议支持身份验证，并且只能保证丢弃错误数据，其他不管，PPP协议多用于拨号上网。  
+&emsp;&emsp;学习计算机网络可以用Cisce Packet Tracer软件模拟网络。  
+* CSMA/CD  
+&emsp;&emsp;载波监听多点接入技术利用了广播通讯，避免了多台计算机在局域网内使用物理层分频/分时的复用技术，主要思想是监听其他计算机是否还在通讯，避免和其他计算机之间的冲突。  
+* 当前进度  
+&emsp;&emsp;课时（28p/95p）数据链路层  
+***
+# 2019/7/10
+## Linux
+* Samba的配置  
+&emsp;&emsp;配置文件目录：/etc/samba/smb.conf，`vim`打开后进行配置：  
+<center>
+<img src="IMG/image016.png">
+</center>
+
+&emsp;&emsp;其中各项参数：  
+&emsp;&emsp;`comment`：对该共享的描述。  
+&emsp;&emsp;`path`：共享目录路径。  
+&emsp;&emsp;`writable`：共享路径是否可写。  
+&emsp;&emsp;`browseable`：共享是否可以浏览。  
+&emsp;&emsp;`vfs object=recycle`：载入回收站模块`recycle.so`  
+&emsp;&emsp;`recycle:repository` ：回收站相对路径  
+&emsp;&emsp;`recycle:keeptree`：删除文件时，是否保存原有文件夹层级结构。  
+&emsp;&emsp;`recycle:version`：删除文件时，遇到同名文件是否启用版本号功能。  
+&emsp;&emsp;`recycle:maxsize`：回收站最大空间，0表示不限制  
+&emsp;&emsp;`recycle:exclude`：删除文件时，这些类型文件不会加入回收站。  
+&emsp;&emsp;`recycle:noversions`：如果遇到这个尅性同名文件则直接覆盖。  
+
+&emsp;&emsp;建立共享目录：  
+&emsp;&emsp;`mkdir /var/storage`然后在其相对目录下`mkdir uses`、`mkdir group`  
+&emsp;&emsp;建立Linux新用户tom，建立Samba新用户tom，给tom设置samba密码，密码为111111。  
+<center>
+<img src="IMG/image017.png">
+</center>
+
+&emsp;&emsp;在share组中加入用户tom：  
+<center>
+<img src="IMG/image018.png">
+</center>
+
+&emsp;&emsp;创建个人存储目录：  
+<center>
+<img src="IMG/image019.png">
+</center>
+
+&emsp;&emsp;创建组存储目录：  
+<center>
+<img src="IMG/image020.png">
+</center>
+
+&emsp;&emsp;创建samba挂载目录到个人存储目录的软连接：  
+<center>
+<img src="IMG/image021.png">
+</center>
+
+&emsp;&emsp;创建samba挂载目录到群组存储目录的软连接：  
+<center>
+<img src="IMG/image022.png">
+</center>
+
+&emsp;&emsp;重启samba出现问题：  
+<center>
+<img src="IMG/image023.png">
+</center>
+
+&emsp;&emsp;使用samba工具`testparm`检测配置文件：  
+<center>
+<img src="IMG/image024.png">
+</center>
+
+&emsp;&emsp;除错，消除错误参数：  
+<center>
+<img src="IMG/image025.png">
+</center>
+
+&emsp;&emsp;重启samba成功：  
+<center>
+<img src="IMG/image026.png">
+</center>
+
+&emsp;&emsp;从windows挂载目录：  
+<center>
+<img src="IMG/image027.png">
+</center>
+
+&emsp;&emsp;安全问题出错：  
+<center>
+<img src="IMG/image028.png">
+</center>
+
+&emsp;&emsp;更改win10安全策略：  
+<center>
+<img src="IMG/image029.png">
+</center>
+
+&emsp;&emsp;解决问题，登录：  
+<center>
+<img src="IMG/image030.png">
+</center>
+
+&emsp;&emsp;出现权限问题：  
+<center>
+<img src="IMG/image031.png">
+</center>
+
+&emsp;&emsp;打开windows中smb功能。  
+<center>
+<img src="IMG/image032.png">
+</center>
+
+&emsp;&emsp;配置失败，排除所有原因分析得出是`smb.conf`仍旧有错误，重新撰写，更新配置文件：  
+<center>
+<img src="IMG/image033.png">
+</center>
+
+&emsp;&emsp;配置成功，可以正常访问服务器。  
+<center>
+<img src="IMG/image034.png">
+</center>
+
+&emsp;&emsp;当前进度：完成回收站的配置，分析之前配置文件错误原因。
+***
+# 2019/7/9
+## Linux
+* 源代码安装Samba  
+    &emsp;&emsp;遇到问题：`E: Package 'libgpgme-dev' has no installation candidate`  
+    <center>
+    <img src="IMG/image012.png">
+    </center> 
+
+	&emsp;&emsp;解决方法：更换香港下载源，重新`update`，重新`upgrade`。解决结果：失败。  
+	&emsp;&emsp;放弃源码安装Samba，使用`aptitude`安装  
+    <center>
+    <img src="IMG/image013.png">
+    </center>
+
+	&emsp;&emsp;安装成功。  
+    <center>
+    <img src="IMG/image014.png">
+    </center> 
+
+* 配置Samba  
+    &emsp;&emsp;Samba配置文件默认目录：/etc/samba/smb.conf  
+	&emsp;&emsp;当前进度：阅读Samba配置文件  
+## 计算机网络
+* CRC检验技术的二进制算法  
+    &emsp;&emsp;理解模2加减乘除法的原理，核心思想是异或，与普通二进制除法区别：  
+    <center>
+    <img src="IMG/image015.png">
+    </center>
+***
+# 2019/7/8
+## Linux
+* 源代码安装Samba  
+    &emsp;&emsp;重新安装`python3`后解决了`python`依赖项问题。
+    <center>
+    <img src="IMG/image010.png">
+    </center>
+
+	&emsp;&emsp;出现新的报错信息`Samba AD DC and --enable-selftest requires lmdb 0.9.16 or later`  
+	&emsp;&emsp;解决方法：下载`lmdb`、`lmdb-devel`，结果：失败，`apt-get`显示没有这个包。解决失败。  
+	&emsp;&emsp;重新全部推倒重做：仔细审查官网找到所有依赖项，把之前全部安装的包卸载重装。  
+    &emsp;&emsp;官网网址：<https://wiki.samba.org/index.php/Package_Dependencies_Required_to_Build_Samba>  
+    &emsp;&emsp;依赖项：
+    <center>
+    <img src="IMG/image011.png">
+    </center>
+
+	&emsp;&emsp;逐一安装依赖项并重新configure。  
+***
 # 2019/7/6
 ## Liunx
 * Debian下的samba源码安装  
